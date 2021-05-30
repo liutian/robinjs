@@ -1,0 +1,48 @@
+{
+  "name": "robinjs",
+  "version": "0.1.0",
+  "description": "low-code tools",
+  "workspaces": [
+    "packages/builder",
+    "packages/transform",
+    "packages/bootstrap",
+    "packages/playground"
+  ],
+  "scripts": {
+    "build-core": "npm run build --workspace=packages/builder",
+    "build-transform": "npm run build --workspace=packages/transform",
+    "build-bootstrap": "npm run build --workspace=packages/bootstrap",
+    "prepare": "husky install",
+    "play": "npm start --workspace=packages/playground"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "packages/**/*.{ts,tsx}": [
+      "eslint --ext .ts,.tsx"
+    ],
+    "packages/**/*.{ts,tsx,json}": [
+      "prettier --write"
+    ]
+  },
+  "keywords": [
+    "low-code"
+  ],
+  "author": "liussdne@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "12.1.4",
+    "@commitlint/config-conventional": "12.1.4",
+    "@typescript-eslint/eslint-plugin": "4.25.0",
+    "@typescript-eslint/parser": "4.25.0",
+    "eslint": "7.27.0",
+    "eslint-config-prettier": "8.3.0",
+    "husky": "6.0.0",
+    "lint-staged": "11.0.0",
+    "prettier": "2.3.0",
+    "typescript": "4.3.2"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@robinjs/transform",
+  "version": "0.0.7",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npx tsc"
+  },
+  "dependencies": {
+    "typescript": "4.3.2",
+    "@robinjs/builder": "0.0.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "author": "liusss@gmail.com",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "package.json",
+    "dist"
+  ]
+}
