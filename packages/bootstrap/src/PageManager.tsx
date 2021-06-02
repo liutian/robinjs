@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 
 import config, { BootstrapOptions } from './config';
 import { resolvePage } from './resolvePage';
 
-interface IPageManager extends React.FC {
+interface IPageManager<T> extends React.FC<T> {
   config: (options: BootstrapOptions) => void;
 }
 
-export const PageManager: IPageManager = () => {
+export const PageManager: IPageManager<{ path: string }> = ({ path }) => {
   const [page, setPage] = useState();
-  const location = useLocation();
 
   useEffect(() => {
-    resolvePage(location.pathname).then((component) => setPage(component));
+    resolvePage(path).then((component) => setPage(component));
     return () => {
       setPage(undefined);
     };
