@@ -7,7 +7,7 @@ const prodConfig = require('./config/webpack.prod');
 module.exports = (env, args) => {
 	let options = baseConfig(env, args);
 
-	if(env === 'prod'){
+	if(env.prod){
 		options = merge(options, prodConfig(env));
 	}else{
 		options = merge(options, devConfig);

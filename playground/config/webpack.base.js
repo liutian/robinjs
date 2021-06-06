@@ -20,6 +20,11 @@ module.exports = (env, args) => {
 				})
 			]
 		},
+		optimization: {
+			runtimeChunk: {
+				name: (entrypoint) => `runtimechunk~${entrypoint.name}`,
+			}
+		},
 		module: {
 			rules: [
 				{
@@ -30,7 +35,7 @@ module.exports = (env, args) => {
 						transpileOnly: !env.prod,
 						allowTsInNodeModules: !env.prod,
 						compilerOptions: {
-
+							declaration: !env.prod
 						}
 					}
 				},

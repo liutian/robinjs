@@ -1,30 +1,22 @@
-module.exports = () => {
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = (env, args) => {
 	return {
-		mode: "production",
+		mode: 'production',
+		devtool: 'hidden-source-map',
 		output: {
 			filename: '[name].[contenthash].bundle.js',
 		},
 		optimization: {
-			runtimeChunk: 'single',
-			moduleIds: 'deterministic',
+			minimize: true,
 			splitChunks: {
-				splitChunks: {
-					styles: {
-						type: 'css/mini-extract', 
-						chunks: 'all',
-					},
-					vendor: {
-						test: /[\\/]node_modules[\\/]/,
-						name: 'vendors',
-						chunks: 'all',
-					}
-				}
+				chunks: 'all',
 			}
 		},
 		plugins: [
 			new MiniCssExtractPlugin({
-				filename: "[name].css",
-				chunkFilename: "[id].css",
+				filename: '[name].[contenthash].bundle.css',
+				chunkFilename: '[name].[contenthash].bundle.css',
 			}),
 		],
 	}

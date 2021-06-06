@@ -7,9 +7,7 @@
     "jsx": "react-jsx",
     "sourceMap": true,
     "paths": {
-      
     }
   },
   "include": ["./src"],
-  "files": ["./src/index.tsx"]
 }
