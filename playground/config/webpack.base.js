@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env, args) => {
@@ -40,16 +39,10 @@ module.exports = (env, args) => {
 					use: [
 						env.prod ? {
 							loader: MiniCssExtractPlugin.loader,
-							options: {
-								esModule: true,
-							},
 						} : 'style-loader',
 
 						{
 							loader: 'css-loader',
-							options: {
-								esModule: true,
-							},
 						},
 						{
 							loader: 'less-loader',
@@ -69,7 +62,7 @@ module.exports = (env, args) => {
 				templateParameters: {
 					title: 'playground'
 				},
-				minify: env === 'prod' ? {
+				minify: env.prod ? {
 					removeComments: true,
 					collapseWhitespace: true,
 					removeRedundantAttributes: true,
@@ -84,7 +77,7 @@ module.exports = (env, args) => {
 			}),
 
 			new webpack.DefinePlugin({
-				'process.env.APP': 'dev',
+				'process.env.APP': JSON.stringify('dev'),
 			}),
 			
 		]
