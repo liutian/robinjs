@@ -8,9 +8,9 @@ module.exports = (env, args) => {
 	let options = commonConfig(env, args);
 
 	if(env.prod){
-		options = merge(options, prodConfig(env));
+		options = merge(options, prodConfig(env, args));
 	}else{
-		options = merge(options, devConfig);
+		options = merge(options, devConfig(env, args));
 	}
 
 	return options;
