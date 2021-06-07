@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import styles from './index.less';
+import styles from './index.module.less';
 
 function Demo() {
   return <>

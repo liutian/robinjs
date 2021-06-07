@@ -48,6 +48,12 @@ module.exports = (env, args) => {
 
 						{
 							loader: 'css-loader',
+							options: {
+								modules: {
+									auto: /\.module\.less$/i,
+									localIdentName: '[name]__[local]--[hash:base64:5]'
+								}
+							}
 						},
 						{
 							loader: 'less-loader',
