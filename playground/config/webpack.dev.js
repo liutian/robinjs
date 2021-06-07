@@ -7,6 +7,9 @@ module.exports = {
   output: {
   },
 	devtool: 'inline-source-map',
+  cache: {
+    type: 'filesystem',
+  },
   devServer: {
     clientLogLevel: 'warning',
 		contentBase: './dist',

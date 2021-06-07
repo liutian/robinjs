@@ -5,6 +5,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 module.exports = (env, args) => {
 	return {
 		mode: 'production',
+		bail: true,
 		devtool: 'hidden-source-map',
 		output: {
 			filename: '[name].[contenthash].bundle.js',
