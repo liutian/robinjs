@@ -17,7 +17,8 @@ module.exports = (env, args) => {
       historyApiFallback: true,
       open: true,
       port: 8888,
-      proxy: proxyMap[env.APP_ENV]
+      proxy: proxyMap[env.APP_ENV],
+      hot: true
     },
     plugins: [
       new ForkTsCheckerWebpackPlugin({
