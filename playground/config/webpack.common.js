@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = (env, args) => {
 	return {
@@ -91,6 +92,11 @@ module.exports = (env, args) => {
 				'process.env.APP': JSON.stringify('dev'),
 			}),
 			
+			new CopyPlugin({
+				patterns: [
+					{from: "public/**/*.*"}
+				],
+			})
 		]
 	}
 }
