@@ -1,4 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
 
 module.exports = (env, args) => {
 	return {
@@ -8,15 +10,25 @@ module.exports = (env, args) => {
 			filename: '[name].[contenthash].bundle.js',
 		},
 		optimization: {
-			minimize: true,
+			minimizer: [
+				new CssMinimizerPlugin(),
+				'...'
+			],
 			splitChunks: {
 				chunks: 'all',
+				cacheGroups: {
+					vendor: {
+						test: /\/node_modules\//,
+						name: 'vendors',
+						chunks: 'all',
+					},
+				},
 			}
 		},
 		plugins: [
 			new MiniCssExtractPlugin({
 				filename: '[name].[contenthash].bundle.css',
-				chunkFilename: '[name].[contenthash].bundle.css',
+				chunkFilename: '[id].[contenthash].bundle.css',
 			}),
 		],
 	}
