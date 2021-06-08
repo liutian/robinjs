@@ -5,7 +5,8 @@
   "workspaces": [
     "packages/builder",
     "packages/transform",
-    "packages/bootstrap"
+    "packages/bootstrap",
+    "packages/playground"
   ],
   "scripts": {
     "build-core": "npm run build --workspace=packages/builder",
