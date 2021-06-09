@@ -16,9 +16,9 @@ export const PageManager: IPageManager<{ path: string }> = ({ path }) => {
     return () => {
       setPage(undefined);
     };
-  });
+  }, []);
 
-  return <>{page || 'loading...'}</>;
+  return <div style={{ whiteSpace: 'pre' }}>{page || 'loading...'}</div>;
 };
 
 PageManager.config = config;
