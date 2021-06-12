@@ -11,7 +11,7 @@ module.exports = (env, args) => {
 		output: {
 			filename: '[name].js',
 			path: path.resolve(__dirname, '../dist'),
-			clean: true
+			clean: true,
 		},
 		resolve: {
 			extensions: ['.tsx', '.ts', '.less', '.js'],
@@ -85,7 +85,7 @@ module.exports = (env, args) => {
 			new HtmlWebpackPlugin({
 				// 源码为修改需要紧急中止客户端缓存时使用
 				// hash: true,
-				publicPath: '',
+				publicPath: '/',
 				templateParameters: {
 					title: 'playground'
 				},
