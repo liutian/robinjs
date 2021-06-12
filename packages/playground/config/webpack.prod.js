@@ -15,16 +15,6 @@ module.exports = (env, args) => {
 				new CssMinimizerPlugin(),
 				'...'
 			],
-			splitChunks: {
-				chunks: 'all',
-				cacheGroups: {
-					vendor: {
-						test: /\/node_modules\//,
-						name: 'vendors',
-						chunks: 'all',
-					},
-				},
-			}
 		},
 		plugins: [
 			new MiniCssExtractPlugin({

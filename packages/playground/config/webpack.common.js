@@ -24,6 +24,21 @@ module.exports = (env, args) => {
 		optimization: {
 			runtimeChunk: {
 				name: (entrypoint) => `runtimechunk~${entrypoint.name}`,
+			},
+			splitChunks: {
+				chunks: 'all',
+				cacheGroups: {
+					vendor: {
+						name: 'vendor',
+						test: /[\\/]node_modules[\\/]/,
+						priority: -10,
+					},
+					common: {
+						name: 'common',
+						minChunks: 2,
+						priority: -20,
+					},
+				},
 			}
 		},
 		module: {
