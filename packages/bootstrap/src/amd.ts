@@ -46,7 +46,7 @@ window.define = function (depsKey, wrapper) {
 
       return keyOrModule;
     });
-    wrapper(depsModules);
+    wrapper(...depsModules);
     pageModuleCallback();
   });
 };
