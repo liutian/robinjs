@@ -1,14 +1,51 @@
-export function emitCode(metadata: { name: string }): string {
-  const code = `
-import React from 'react';
-import { Button } from 'antd';
+export function emitCode(metadata: any): string {
+  const codeStore: any = {
+    page1: `
+    import React from 'react';
+    import { Button } from 'antd';
+    
+    function Page() {
+      return <>
+        <Button onClick={() => alert('world')}>${metadata.moduleName}</Button>
+      </>;
+    }
+      
+    export default Page;
+    `,
+    page2: `
+    import React from 'react';
+    import { Input } from 'antd';
+    
+    function Page() {
+      return <><Input value={'${metadata.moduleName}'}/></>;
+    }
+      
+    export default Page;
+    `,
+    page3: `
+    import React from 'react';
+    import { Select } from 'antd';
+    
+    function Page() {
+      return <>
+        <Select  style={{ width: 120 }} >
+        <Select.Option value="jack">Jack</Select.Option>
+        </Select>
+      </>;
+    }
+      
+    export default Page;
+    `,
+    notFound: `
+    import React from 'react';
+    
+    function Page() {
+      return <>not found</>;
+    }
+      
+    export default Page;
+    `,
+  };
 
-function Page() {
-  return <><Button onClick={() => alert('world')}>${metadata.name}</Button></>;
-}
-  
-export default Page;
-`;
-
-  return code;
+  return codeStore[metadata.moduleName] || codeStore.notFound;
 }

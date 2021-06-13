@@ -1,24 +1,28 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
 
-import config, { BootstrapOptions } from './config';
+import { BootstrapOptions, configBootstrap } from './config';
 import { resolvePage } from './resolvePage';
 
-interface IPageManager<T> extends React.FC<T> {
-  config: (options: BootstrapOptions) => void;
+interface IPageContainer<T> extends React.FC<T> {
+  configBootstrap: (options: BootstrapOptions) => void;
 }
 
-export const PageManager: IPageManager<{ path: string }> = ({ path }) => {
-  const [page, setPage] = useState();
+export const PageManager: IPageContainer<{ path: string }> = ({ path }) => {
+  const [page, setPage] = useState('div');
 
   useEffect(() => {
-    resolvePage(path).then((component) => setPage(component));
+    resolvePage(path).then((pageModule) => {
+      setPage(() => {
+        return pageModule;
+      });
+    });
     return () => {
-      setPage(undefined);
+      setPage('div');
     };
-  }, []);
+  }, [path]);
 
-  return <div style={{ whiteSpace: 'pre' }}>{page || 'loading...'}</div>;
+  return React.createElement(page, { children: 'loading...' });
 };
 
-PageManager.config = config;
+PageManager.configBootstrap = configBootstrap;

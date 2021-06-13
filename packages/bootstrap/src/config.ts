@@ -1,12 +1,16 @@
-const pathDataMap = new Map<string, unknown>();
+import { AMDConfig, AMDOptions } from './amd';
 
-function config(options: BootstrapOptions): void {
-  console.log(options);
+const options: BootstrapOptions = {};
+
+function configBootstrap(customOptions: BootstrapOptions): void {
+  Object.assign(options, customOptions);
+  AMDConfig(options as AMDOptions);
 }
 
-export interface BootstrapOptions {
-  pageDataHostServer: string;
-}
+export type BootstrapOptions =
+  | AMDOptions
+  | {
+      pageDataHostServer: string;
+    };
 
-export { pathDataMap };
-export default config;
+export { options, configBootstrap };

@@ -6,3 +6,9 @@ declare namespace NodeJS {
     readonly APP: 'online' | 'pl' | 'qa' | 'dev';
   }
 }
+
+interface Window {
+  define: (depsKey: string[], wrapper: () => void) => void;
+  _pageModuleName: string;
+  _pageModuleCallback: () => void;
+}
