@@ -1,4 +1,4 @@
-import { emitCode } from '@robinjs/builder';
+import { emitCode } from './builder';
 import ts from 'typescript';
 import { CodeMetadata } from './code_metadata';
 import defaultConfig from './defaultConfig';

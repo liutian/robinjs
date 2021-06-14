@@ -1,12 +1,14 @@
 {
-  "name": "@robinjs/builder",
+  "name": "@robinjs/core",
   "version": "0.0.7",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc"
   },
-  "dependencies": {},
+  "dependencies": {
+    "typescript": "4.3.2"
+  },
   "engines": {
     "node": ">=14.0.0"
   },

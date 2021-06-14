@@ -3,14 +3,12 @@
   "version": "0.1.0",
   "description": "low-code tools",
   "workspaces": [
-    "packages/builder",
-    "packages/transform",
+    "packages/core",
     "packages/bootstrap",
     "packages/playground"
   ],
   "scripts": {
     "build-core": "npm run build --workspace=packages/builder",
-    "build-transform": "npm run build --workspace=packages/transform",
     "build-bootstrap": "npm run build --workspace=packages/bootstrap",
     "prepare": "husky install",
     "play": "npm start --workspace=packages/playground"

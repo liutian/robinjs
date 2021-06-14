@@ -1,4 +1,4 @@
-import { CodeMetadata, createCode } from '@robinjs/transform';
+import { CodeMetadata, createCode } from '@robinjs/core';
 import { pageModuleMap } from './amd';
 const pageDataMap = new Map<string, any>();
 
