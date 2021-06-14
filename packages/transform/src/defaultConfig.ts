@@ -6,8 +6,6 @@ const defaultConfig: CompilerOptions = {
   target: ScriptTarget.ES2015,
   esModuleInterop: true,
   importHelpers: true,
-  isolatedModules: true,
-  sourceMap: true,
   inlineSourceMap: true,
   inlineSources: true,
 };
