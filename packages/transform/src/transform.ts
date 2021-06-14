@@ -9,7 +9,7 @@ export function createCode(metadata: CodeMetadata): string {
     compilerOptions: defaultConfig,
     reportDiagnostics: false,
     // moduleName: metadata.moduleName,
-    // fileName: metadata.moduleName
+    fileName: metadata.moduleName + '.tsx',
   });
 
   return result.outputText;
