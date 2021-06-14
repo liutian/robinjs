@@ -1,6 +1,6 @@
 export function emitCode(metadata: any): string {
   const codeStore: any = {
-    page1: `
+    ['/robin/page1']: `
     import React from 'react';
     import { Button } from 'antd';
     
@@ -12,7 +12,7 @@ export function emitCode(metadata: any): string {
       
     export default Page;
     `,
-    page2: `
+    ['/robin/page2']: `
     import React from 'react';
     import { Input } from 'antd';
     
@@ -22,7 +22,7 @@ export function emitCode(metadata: any): string {
       
     export default Page;
     `,
-    page3: `
+    ['/robin/page3']: `
     import React from 'react';
     import { Select } from 'antd';
     

@@ -4,8 +4,7 @@ let internalOptions: AMDOptions;
 
 initDefaultModule();
 
-window.define = function (depsKey, wrapper) {
-  const pageModuleName = window._pageModuleName;
+window.define = function (moduleName, depsKey, wrapper) {
   const pageModuleCallback = window._pageModuleCallback;
 
   const depsPromise = Promise.all(
@@ -39,8 +38,8 @@ window.define = function (depsKey, wrapper) {
   depsPromise.then((deps) => {
     const depsModules = deps.map((keyOrModule) => {
       if (keyOrModule === 'exports') {
-        const exportsObj = { __pageModuleName: pageModuleName };
-        pageModuleMap.set(pageModuleName, exportsObj);
+        const exportsObj = { __moduleName: moduleName };
+        pageModuleMap.set(moduleName, exportsObj);
         return exportsObj;
       }
 

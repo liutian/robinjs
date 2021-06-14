@@ -8,7 +8,7 @@ export function createCode(metadata: CodeMetadata): string {
   const result = ts.transpileModule(sourceCode, {
     compilerOptions: defaultConfig,
     reportDiagnostics: false,
-    // moduleName: metadata.moduleName,
+    moduleName: metadata.moduleName,
     fileName: metadata.moduleName + '.tsx',
   });
 

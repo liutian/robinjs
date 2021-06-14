@@ -8,7 +8,10 @@ declare namespace NodeJS {
 }
 
 interface Window {
-  define: (depsKey: string[], wrapper: (...defaultModule: any) => void) => void;
-  _pageModuleName: string;
+  define: (
+    moduleName: string,
+    depsKey: string[],
+    wrapper: (...defaultModule: any) => void
+  ) => void;
   _pageModuleCallback: () => void;
 }

@@ -9,7 +9,7 @@ export function resolvePage(path: string): Promise<any> {
 
   return new Promise((resolve) => {
     setTimeout(() => {
-      const data = { moduleName: path.replace('/robin/', '') };
+      const data = { moduleName: path };
       pageDataMap.set(path, data);
       resolve(data);
     }, 1000);
@@ -17,7 +17,6 @@ export function resolvePage(path: string): Promise<any> {
     let resolveCallback: (moduleDefault: any) => void;
 
     const sourceCode = createCode(data as CodeMetadata);
-    window._pageModuleName = path;
     window._pageModuleCallback = function () {
       const pageModuleDefault = pageModuleMap.get(path).default;
       resolveCallback(pageModuleDefault);
