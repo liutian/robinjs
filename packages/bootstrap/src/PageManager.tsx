@@ -1,28 +1,66 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import React from 'react';
 
-import { BootstrapOptions, configBootstrap } from './config';
-import { resolvePage } from './resolvePage';
+import { configBootstrap, instance, loadProject } from './config';
+import { Options } from './types';
+import { errorInfo } from './util';
 
-interface IPageContainer<T> extends React.FC<T> {
-  configBootstrap: (options: BootstrapOptions) => void;
+interface IPageManager<T> extends React.FC<T> {
+  config: (options: Options) => void;
 }
 
-export const PageManager: IPageContainer<{ path: string }> = ({ path }) => {
-  const [page, setPage] = useState('div');
+let configReady = false;
+
+export const PageManager: IPageManager<{ path: string }> = ({ path }) => {
+  const refresh = useRefresh();
+  console.log('render');
 
   useEffect(() => {
-    resolvePage(path).then((pageModule) => {
-      setPage(() => {
-        return pageModule;
-      });
-    });
-    return () => {
-      setPage('div');
-    };
+    if (!instance.project || instance.projectLoading) {
+      return;
+    }
+
+    instance.project.loadPage(path).then(
+      () => {
+        refresh();
+      },
+      (error) => {
+        errorInfo(error, 'PageManager');
+      }
+    );
   }, [path]);
 
-  return React.createElement(page, { children: 'loading...' });
+  if (configReady === false) {
+    return (
+      <p style={{ color: 'red' }}>Configuration must be performed first!!!</p>
+    );
+  }
+
+  if (!instance.project) {
+    loadProject().then(refresh);
+  }
+
+  if (instance.projectLoading) {
+    return <>project loading...</>;
+  }
+
+  const page = instance.project.getPage(path);
+  if (page) {
+    return React.createElement(page.module.default);
+  }
+
+  return <>page loading...</>;
 };
 
-PageManager.configBootstrap = configBootstrap;
+function useRefresh() {
+  const [, refresh] = useState(0);
+  return useCallback(() => {
+    refresh((count) => ++count);
+  }, []);
+}
+
+PageManager.config = (options) => {
+  const instance = configBootstrap(options);
+  configReady = true;
+  return instance;
+};

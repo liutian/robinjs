@@ -4,5 +4,5 @@ interface Window {
     depsKey: string[],
     wrapper: (...defaultModule: any) => void
   ) => void;
-  _pageModuleCallback: () => void;
+  _moduleCallback: (module: any) => void;
 }

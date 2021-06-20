@@ -1,76 +1,79 @@
-const loadedModuleMap = new Map<string, any>();
-const pageModuleMap = new Map<string, any>();
+const commonModuleMap = new Map<string, any>();
+const mainModuleMap = new Map<string, any>();
 let internalOptions: AMDOptions;
 
 initDefaultModule();
 
-window.define = function (moduleName, depsKey, wrapper) {
-  const pageModuleCallback = window._pageModuleCallback;
+if ('define' in window) {
+  throw new Error('window.define is exists');
+}
+
+window.define = function (moduleName, depModules, wrapper) {
+  const moduleCallback = window._moduleCallback;
 
   const depsPromise = Promise.all(
-    depsKey.map((key) => {
-      if (key === 'exports') {
-        return Promise.resolve(key);
+    depModules.map((depName) => {
+      if (depName === 'exports') {
+        return Promise.resolve(depName);
       }
 
-      if (internalOptions.fetchModule) {
-        const mod = internalOptions.fetchModule(key);
+      if (internalOptions.injectModule) {
+        const mod = internalOptions.injectModule(depName);
         if (mod) {
-          loadedModuleMap.set(key, mod);
+          commonModuleMap.set(depName, mod);
         }
       }
 
-      if (loadedModuleMap.get(key)) {
-        if (typeof loadedModuleMap.get(key).then === 'function') {
-          return loadedModuleMap.get(key).then((mod: any) => {
-            loadedModuleMap.set(key, mod);
+      if (commonModuleMap.get(depName)) {
+        if (typeof commonModuleMap.get(depName).then === 'function') {
+          return commonModuleMap.get(depName).then((mod: any) => {
+            commonModuleMap.set(depName, mod);
             return mod;
           });
         }
 
-        return Promise.resolve(loadedModuleMap.get(key));
+        return Promise.resolve(commonModuleMap.get(depName));
       } else {
-        throw Error('not found deps :' + key);
+        throw Error('not found depModule :' + depName);
       }
     })
   );
 
-  depsPromise.then((deps) => {
-    const depsModules = deps.map((keyOrModule) => {
-      if (keyOrModule === 'exports') {
-        const exportsObj = { __moduleName: moduleName };
-        pageModuleMap.set(moduleName, exportsObj);
-        return exportsObj;
-      }
+  depsPromise.then((depModule) => {
+    const moduleObj = { __moduleName: moduleName };
+    mainModuleMap.set(moduleName, moduleObj);
 
+    const depsModules = depModule.map((keyOrModule) => {
+      if (keyOrModule === 'exports') {
+        return moduleObj;
+      }
       return keyOrModule;
     });
+
     wrapper(...depsModules);
-    pageModuleCallback();
+    moduleCallback(moduleObj);
   });
 };
 
 function initDefaultModule() {
-  loadedModuleMap.set('require', requireModule);
+  commonModuleMap.set('require', requireModule);
 }
 
 function requireModule() {
   throw new Error('call require');
 }
 
-export function AMDConfig(options: AMDOptions) {
+export function AMDConfig(options: AMDOptions): void {
   internalOptions = Object.assign({}, options);
 
   if (options.modules) {
     Object.keys(options.modules).forEach((key) => {
-      loadedModuleMap.set(key, options.modules[key]);
+      commonModuleMap.set(key, options.modules[key]);
     });
   }
 }
 
 export type AMDOptions = {
-  modules?: any;
-  fetchModule?: (key: string) => any;
+  modules: { [key: string]: any };
+  injectModule?: (key: string) => any;
 };
-
-export { pageModuleMap };

@@ -5,7 +5,10 @@ import react from 'react';
 import * as tslib from 'tslib';
 import * as jsxRuntime from 'react/jsx-runtime';
 
-PageManager.configBootstrap({
+PageManager.config({
+  server: 'demo',
+  // lazyLoadWorker: false,
+  debug: true,
   modules: {
     react,
     antd: {
