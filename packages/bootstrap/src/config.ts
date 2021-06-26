@@ -30,7 +30,14 @@ export function configBootstrap(customOptions: Options): RobinInstance {
 }
 
 export function loadWorker(): void {
-  const workerInstance = new Worker(new URL('./webworker', import.meta.url));
+  const workerOptions = JSON.stringify({
+    tsWorkerUrl:
+      'https://typescript.azureedge.net/cdn/4.3.4/monaco/min/vs/language/typescript/tsWorker.js',
+  });
+
+  const workerInstance = new Worker(new URL('./webworker', import.meta.url), {
+    name: workerOptions,
+  });
   workerInstance.addEventListener('message', (e) => {
     if (e.data === 'ok') {
       instance.workerOk = true;
