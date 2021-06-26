@@ -1,13 +1,13 @@
 {
   "name": "@robinjs/bootstrap",
-  "version": "0.0.9",
+  "version": "0.0.99",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc"
   },
   "dependencies": {
-    "@robinjs/core": "0.0.7"
+    "@robinjs/core": "0.0.99"
   },
   "peerDependencies": {
     "react": "17.0.2",
