@@ -14,10 +14,13 @@ export class Project {
 
     /** mock */
     const page1 = new Page('/robin/page1', '');
+    // page1.resourceUrl = 'http://192.168.31.37:5000/page1.js';
     project.allPageMap.set('/robin/page1', page1);
     const page2 = new Page('/robin/page2', '');
+    // page2.resourceUrl = 'http://192.168.31.37:5000/page2.js';
     project.allPageMap.set('/robin/page2', page2);
     const page3 = new Page('/robin/page3', '');
+    // page3.resourceUrl = 'http://192.168.31.37:5000/page3.js';
     project.allPageMap.set('/robin/page3', page3);
 
     return project;
@@ -55,21 +58,8 @@ export class Project {
       'message',
       ({ data: { type, code, path } }: { data: OutputMessage }) => {
         if (type === 'emitCode') {
-          window._moduleCallback = (module) => {
-            const page = this.allPageMap.get(path);
-            if (page) {
-              page.module = module;
-              page.metadataResovle();
-            } else {
-              errorInfo('unknow page code', 'project');
-            }
-          };
-
-          try {
-            window.Function(code)();
-          } catch (e) {
-            errorInfo('page code execute fail', 'project');
-          }
+          const page = this.allPageMap.get(path);
+          page?.execCode(code);
         }
       }
     );
@@ -78,7 +68,7 @@ export class Project {
 
 export class Page {
   resourceUrl!: string;
-  metadataResovle!: () => void;
+  resolveCallback!: () => void;
   module: any;
   metadata: any;
   private metadataPromise!: Promise<void>;
@@ -122,13 +112,33 @@ export class Page {
       };
 
       return new Promise((resolve) => {
-        this.metadataResovle = resolve;
+        this.resolveCallback = resolve;
         (instance.worker as Worker).postMessage(messageData);
       });
     });
   }
 
   loadModuleFromResource(): Promise<void> {
-    return Promise.resolve(/** todo - 加载静态代码 */);
+    return new Promise((resolve) => {
+      this.resolveCallback = resolve;
+      fetch(this.resourceUrl)
+        .then((res) => res.text())
+        .then((code) => {
+          this?.execCode(code);
+        });
+    });
+  }
+
+  execCode(code: string): void {
+    window._moduleCallback = (module) => {
+      this.module = module;
+      this.resolveCallback();
+    };
+
+    try {
+      window.Function(code)();
+    } catch (e) {
+      errorInfo('page code execute fail', 'project');
+    }
   }
 }
