@@ -8,7 +8,7 @@
     "packages/playground"
   ],
   "scripts": {
-    "build-core": "npm run build --workspace=packages/builder",
+    "build-core": "npm run build --workspace=packages/core",
     "build-bootstrap": "npm run build --workspace=packages/bootstrap",
     "prepare": "husky install",
     "play": "npm start --workspace=packages/playground"
