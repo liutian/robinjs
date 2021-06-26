@@ -137,8 +137,8 @@ export class Page {
 
     try {
       window.Function(code)();
-    } catch (e) {
-      errorInfo('page code execute fail', 'project');
+    } catch (err) {
+      errorInfo('page code execute fail ==> ' + err, 'project');
     }
   }
 }
