@@ -1,9 +1,7 @@
-import ts, { CompilerOptions, JsxEmit, ScriptTarget } from 'typescript';
-
-const defaultConfig: CompilerOptions = {
-  module: ts.ModuleKind.AMD,
-  jsx: JsxEmit.ReactJSX,
-  target: ScriptTarget.ES2015,
+const defaultConfig = {
+  module: 2, // tsplaceholder ModuleKind.AMD,
+  jsx: 4, // tsplaceholder JsxEmit.ReactJSX,
+  target: 2, // tsplaceholder ScriptTarget.ES2015
   esModuleInterop: true,
   importHelpers: true,
   inlineSourceMap: true,
