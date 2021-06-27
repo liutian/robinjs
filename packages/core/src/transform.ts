@@ -2,6 +2,9 @@ import { emitCode } from './builder';
 import { CodeMetadata } from './code_metadata';
 import defaultConfig from './defaultConfig';
 
+const sourceMapPrefix = '//# sourceMappingURL=data:application/json;base64,';
+const tsSourceMapPatchReg = new RegExp(sourceMapPrefix + '.+$');
+
 export function createCode(
   metadata: CodeMetadata,
   options: optionsType
@@ -14,7 +17,20 @@ export function createCode(
     fileName: metadata.moduleName + '.tsx',
   });
 
-  return result.outputText;
+  // fix 修复typescript sourcemap 总是缺少两行
+  const codeText = result.outputText.replace(
+    tsSourceMapPatchReg,
+    (matchStr) => {
+      const mapStr = matchStr.substr(sourceMapPrefix.length);
+      const mapObjStr = self.atob(mapStr);
+      const mapObj = JSON.parse(mapObjStr);
+      mapObj.mappings = ';;' + mapObj.mappings;
+
+      return sourceMapPrefix + self.btoa(JSON.stringify(mapObj));
+    }
+  );
+
+  return codeText;
 }
 
 type optionsType = { tsConfig?: any; transpileModule: transpileModuleType };
